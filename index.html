@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>午餐问卷调查</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 15px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #e8f4f8;
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            background-color: #3498db;
+            color: white;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍚 你今天中午吃了什么？</h1>
+        <div class="options">
+            <div class="option" onclick="selectOption('A')">
+                A. 面条
+            </div>
+            <div class="option" onclick="selectOption('B')">
+                B. 米饭
+            </div>
+            <div class="option" onclick="selectOption('C')">
+                C. 米线
+            </div>
+        </div>
+        <button onclick="submitAnswer()">提交答案</button>
+        <div id="result" class="success"></div>
+    </div>
+
+    <script>
+        let selectedOption = null;
+
+        function selectOption(option) {
+            // 移除所有选项的选中样式
+            document.querySelectorAll('.option').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 添加当前选项的选中样式
+            const selectedElement = document.querySelector(`[onclick="selectOption('${option}')"]`);
+            selectedElement.classList.add('selected');
+            
+            selectedOption = option;
+        }
+
+        function submitAnswer() {
+            const resultDiv = document.getElementById('result');
+            
+            if (!selectedOption) {
+                alert('请先选择一个选项！');
+                return;
+            }
+
+            const answerMap = {
+                'A': '面条',
+                'B': '米饭',
+                'C': '米线'
+            };
+
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h3>提交成功！</h3>
+                <p>你的选择是：${answerMap[selectedOption]}</p>
+                <p>感谢参与问卷调查！</p>
+            `;
+
+            // 清空选择（可选）
+            setTimeout(() => {
+                selectedOption = null;
+                document.querySelectorAll('.option').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                resultDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
